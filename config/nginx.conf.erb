@@ -91,6 +91,16 @@ http {
         proxy_redirect off;
         <% if ENV["NGINX_DEBUG"] %>add_header Ember-Cli-Proxy on;<% end %>
       }
+      
+      location /token {
+        proxy_pass <%= ENV["API_URL"] %>;
+        proxy_set_header Real-IP $remote_addr;
+        proxy_set_header Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header NginX-Proxy true;
+        proxy_ssl_session_reuse off;
+        proxy_redirect off;
+        <% if ENV["NGINX_DEBUG"] %>add_header Ember-Cli-Proxy on;<% end %>
+      }
     <% end %>
 
     <% if ENV["PRERENDER_HOST"] %>
